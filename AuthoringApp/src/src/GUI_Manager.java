@@ -16,10 +16,11 @@ public class GUI_Manager extends JApplet
     // instance variables - replace the example below with your own
    private final int APPLET_WIDTH = 1000;
    private final int APPLET_HEIGHT = 500;
-   private JPanel topDisplay, appPanel, buttonPanel, botPanel, queue;
-   private TextArea annoDisplay;
+   private JPanel topDisplay, appPanel, buttonPanel, botPanel, queue, annoDisplay;
    private JLabel titleLabel, annoText; 
    private TimePanel tPanel; 
+   private AnnoPanel aPanel;
+   private ListPanel lPanel;
    private ArrayList<Content> contentList = new ArrayList<Content>();;
    private JList list_events;
    
@@ -36,22 +37,20 @@ public class GUI_Manager extends JApplet
       
       topDisplay.add(titleLabel);
       
-      //Sets up the annotation display panel (commented out to mess around with TextArea class)
-      /**annoDisplay = new JPanel();
-      *annoDisplay.setLayout (new BoxLayout(annoDisplay, BoxLayout.PAGE_AXIS));
-      *annoDisplay.setPreferredSize(new Dimension(APPLET_WIDTH, APPLET_HEIGHT-140));
-      *annoDisplay.setBackground(Color.white);
-      *annoDisplay.setOpaque(true);
-      *
-      *annoText = new JLabel("In 1998 Mozart wrote this piece after coming to America. The trumpets here rise in pitch to a B-Flat. Soon the violin will come back in and begin to play a tune inspired by his hometown of London, England.");
-      *annoText.setForeground(Color.black);
-      *
-      *annoDisplay.add(annoText);
-      */
+      //Sets up the annotation display panel (in progress)
+      annoDisplay = new JPanel();
+      annoDisplay.setLayout (new BorderLayout());
+      annoDisplay.setPreferredSize(new Dimension(APPLET_WIDTH, APPLET_HEIGHT-140));
+      annoDisplay.setBackground(Color.white);
+      annoDisplay.setOpaque(true);
       
-      annoDisplay = new TextArea("In 1998 Mozart wrote this piece after coming to America. \n " +
-      							"The trumpets here rise in pitch to a B-Flat. Soon the violin will come back in and begin to play a tune inspired by his hometown of London, England." +
-      							"\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\nYay vert scrolling");
+      contentList.add(new Content (Content.ContentType.Text, "Filler"));
+      aPanel = new AnnoPanel(contentList);
+      lPanel = new ListPanel(contentList);
+      
+      annoDisplay.add(aPanel, BorderLayout.WEST);
+      annoDisplay.add(lPanel, BorderLayout.EAST);
+      
       
       //Buttons!
       JButton btnAddEvent = new JButton("Add Event");
@@ -79,11 +78,55 @@ public class GUI_Manager extends JApplet
 				}
 				
 				contentList.add(new Content(fileType, input));
+				aPanel.updateList(contentList);
+				lPanel.updateList(contentList);
+			}
+		});
+		
+		JButton btnDelEvent = new JButton("Remove Event");
+		btnDelEvent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+		
+				int choice = Integer.parseInt(JOptionPane.showInputDialog("Enter # of annotation you want to delete"));
+				contentList.remove(choice-1);
+				
+				aPanel.updateList(contentList);
+				lPanel.updateList(contentList);
+			}
+		});
+		
+		JButton btnChangeEvent = new JButton("Switch Event");
+		btnChangeEvent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+		
+				int choice = Integer.parseInt(JOptionPane.showInputDialog("Enter # of annotation you want to display"));
+				
+				aPanel.updateSpot(choice);
+			}
+		});
+		
+		JButton btnEditEvent = new JButton("Edit Event");
+		btnEditEvent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+		
+				int choice = Integer.parseInt(JOptionPane.showInputDialog("Enter # of annotation you want to edit"));
+				String newContent = JOptionPane.showInputDialog("Enter the new content for this annotation");
+				
+				contentList.get(choice)._content = newContent;
+				
+				aPanel.updateList(contentList);
+				lPanel.updateList(contentList);
+				
 			}
 		});
 		
 		buttonPanel = new JPanel();
+		buttonPanel.setLayout(new GridLayout(2,2));
 		buttonPanel.add(btnAddEvent);
+		buttonPanel.add(btnDelEvent);
+		buttonPanel.add(btnChangeEvent);
+		buttonPanel.add(btnEditEvent);
+		
       
       //Bottom Panel
       tPanel = new TimePanel(600);
