@@ -88,7 +88,7 @@ public class GUI_Manager extends JApplet
 			public void actionPerformed(ActionEvent e) {
 		
 				int choice = Integer.parseInt(JOptionPane.showInputDialog("Enter # of annotation you want to delete"));
-				contentList.remove(choice-1);
+				contentList.remove(choice);
 				
 				aPanel.updateList(contentList);
 				lPanel.updateList(contentList);
