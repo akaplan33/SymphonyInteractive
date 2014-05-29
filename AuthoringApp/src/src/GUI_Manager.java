@@ -17,7 +17,7 @@ public class GUI_Manager extends JApplet
    private final int APPLET_WIDTH = 1000;
    private final int APPLET_HEIGHT = 500;
    private JPanel topDisplay, appPanel, buttonPanel, botPanel, queue, annoDisplay;
-   private JLabel titleLabel, annoText; 
+   private JLabel titleLabel; 
    private TimePanel tPanel; 
    private AnnoPanel aPanel;
    private ListPanel lPanel;
