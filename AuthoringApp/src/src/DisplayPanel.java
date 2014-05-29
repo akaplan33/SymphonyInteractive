@@ -7,21 +7,21 @@ import java.util.ArrayList;
 import java.awt.*;
 import javax.swing.JPanel;
 
-public class AnnoPanel extends JPanel
+public class DisplayPanel extends JPanel
 {
    private final int PANEL_WIDTH = 500;
    private final int PANEL_HEIGHT = 500;
-   private Content currentDisplay;
-   private ArrayList<Content> contentList;
+   private Note currentDisplay;
+   private ArrayList<Note> noteList;
    
    //-----------------------------------------------------------------
    //  Sets the initial fractal order to the value specified.
    //-----------------------------------------------------------------
-   public AnnoPanel (ArrayList<Content> contentList)
+   public DisplayPanel (ArrayList<Note> noteList)
    {
-	  this.contentList = contentList;
-	  if(!contentList.isEmpty())
-		  currentDisplay = contentList.get(0);
+	  this.noteList = noteList;
+	  if(!noteList.isEmpty())
+		  currentDisplay = noteList.get(0);
       setBackground (Color.white);
       setPreferredSize (new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
    }
@@ -35,25 +35,26 @@ public class AnnoPanel extends JPanel
       super.paintComponent (page);
 
       page.setColor (Color.black);
+      //page.drawString(currentDisplay.toString(), 0, 0);
 
-      drawAnno(page);
+      //drawNote(page);
    }
    
-   private void drawAnno(Graphics page)
+   private void drawNote(Graphics page)
    {
-       page.drawString(currentDisplay._content, 20, 20);
+       //currentDisplay.drawFull(page);
    }
    
-   public void updateList(ArrayList<Content> contentList)
+   public void updateList(ArrayList<Note> noteList)
    {
-	   this.contentList = contentList;
+	   this.noteList = noteList;
 	   repaint();
    }
    
    public void updateSpot(int choice)
    {
-	   if(choice <= contentList.size())
-		   currentDisplay = contentList.get(choice);
+	   if(choice <= noteList.size())
+		   currentDisplay = noteList.get(choice);
 	   repaint();
    }
 }

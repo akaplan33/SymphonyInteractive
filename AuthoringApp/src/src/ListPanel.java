@@ -5,21 +5,21 @@
 //**********
 import java.util.ArrayList;
 import java.awt.*;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class ListPanel extends JPanel
 {
-   private final int PANEL_WIDTH = 100;
-   private final int PANEL_HEIGHT = 500;
-   private ArrayList<Content> contentList;
+   private final int PANEL_WIDTH = 500;
+   private final int PANEL_HEIGHT = 100;
+   private ArrayList<Note> noteList;
    
    //-----------------------------------------------------------------
    //  Sets the initial fractal order to the value specified.
    //-----------------------------------------------------------------
-   public ListPanel (ArrayList<Content> contentList)
+   public ListPanel (ArrayList<Note> noteList)
    {
-	  this.contentList = contentList;
-      setBackground (Color.white);
+	  this.noteList = noteList;
+      setBackground (Color.green);
       setPreferredSize (new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
    }
 
@@ -33,24 +33,23 @@ public class ListPanel extends JPanel
 
       page.setColor (Color.black);
 
-      drawAnno(page);
+      drawNotes(page);
    }
    
-   private void drawAnno(Graphics page)
+   private void drawNotes(Graphics page)
    {
-       for(int c = 0; c < contentList.size(); c++)
+       for(int c = 0; c < noteList.size(); c++)
        {
-    	   page.setColor(Color.BLUE);
-    	   page.drawRect(5, c*55, 100, 50);
-    	   page.setColor(Color.BLACK);
-    	   page.drawString(String.valueOf(c), 3, (c*55)+20);
-    	   page.drawString(contentList.get(c)._content, 15, (c*55)+20);
+    	   JPanel next = new JPanel();
+    	   next.setBorder(BorderFactory.createTitledBorder((""+ c)));
+    	   next.add (new JLabel ("" + noteList.get(c)));
+    	   this.add(next);
        }
    }
    
-   public void updateList(ArrayList<Content> contentList)
+   public void updateList(ArrayList<Note> noteList)
    {
-	   this.contentList = contentList;
+	   this.noteList = noteList;
 	   repaint();
    }
 }

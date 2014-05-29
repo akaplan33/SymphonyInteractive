@@ -10,19 +10,12 @@ public class Note
 	private Image fullSize;
 	private Image thumbnail;
 	
-	public Note (int time, String songTitle, String annotation, Image fullSize)
+	public Note ()
 	{
-		this.time = time;
-		this.songTitle = songTitle;
-		this.annotation = annotation;
-		this.fullSize = fullSize;
-		
-		thumbnail = fullSize.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-	}
-	
-	public int getTime()
-	{
-		return time;
+		//this.time = time;
+		//this.songTitle = songTitle;
+		//this.annotation = annotation;
+		//this.fullSize = fullSize;
 	}
 	
 	public void setTime(int newTime)
@@ -30,9 +23,9 @@ public class Note
 		time = newTime;
 	}
 	
-	public String getAnnotation()
+	public int getTime()
 	{
-		return annotation;
+		return time;
 	}
 	
 	public void setAnnotation(String newAnnotation)
@@ -40,19 +33,25 @@ public class Note
 		annotation = newAnnotation;
 	}
 	
-	public int getX()
+	public String getAnnotation()
 	{
-		return x;
+		return annotation;
 	}
 	
+	public void setImage (Image newImage)
+	{
+		fullSize = newImage;
+		thumbnail = fullSize.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+	}
+
 	public void setX(int newX)
 	{
 		x = newX;
 	}
 	
-	public int getY()
+	public int getX()
 	{
-		return y;
+		return x;
 	}
 	
 	public void setY(int newY)
@@ -60,6 +59,11 @@ public class Note
 		y = newY;
 	}
 	
+	public int getY()
+	{
+		return y;
+	}
+		
 	public String toString()
 	{
 		String result = "";
@@ -76,12 +80,12 @@ public class Note
 	public void drawFull (Graphics page)
 	{
 		page.drawString(annotation, x, y);
-		page.drawImage(fullSize, x, y, null);
+		//page.drawImage(fullSize, x, y, null);
 	}
 	
 	public void drawEntry (Graphics page)
 	{
-		page.drawImage(thumbnail, x, y, null);
+		//page.drawImage(thumbnail, x, y, null);
 		page.drawString(""+time, x+60, y);
 	}
 	
