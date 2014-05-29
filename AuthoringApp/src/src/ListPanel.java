@@ -43,8 +43,8 @@ public class ListPanel extends JPanel
     	   page.setColor(Color.BLUE);
     	   page.drawRect(5, c*55, 100, 50);
     	   page.setColor(Color.BLACK);
-    	   page.drawString(String.valueOf(c), 3, (c*55)+20);
-    	   page.drawString(contentList.get(c)._content, 15, (c*55)+20);
+    	   page.drawString(String.valueOf(c), 10, (c*55)+20);
+    	   page.drawString(contentList.get(c)._content, 25, (c*55)+20);
        }
    }
    
