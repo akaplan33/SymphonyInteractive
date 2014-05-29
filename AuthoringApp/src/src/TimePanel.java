@@ -5,6 +5,8 @@
 //********************************************************************
 
 import java.awt.*;
+import java.util.ArrayList;
+
 import javax.swing.JPanel;
 
 public class TimePanel extends JPanel
@@ -12,12 +14,14 @@ public class TimePanel extends JPanel
    private final int PANEL_WIDTH = 1000;
    private final int PANEL_HEIGHT = 100;
    private final int SONG_TIME;
+   private ArrayList<Content> contentList;
    
    //-----------------------------------------------------------------
    //  Sets the initial fractal order to the value specified.
    //-----------------------------------------------------------------
-   public TimePanel (int time)
+   public TimePanel (int time, ArrayList<Content> contentList)
    {
+	  this.contentList = contentList;
       SONG_TIME = time;
       setBackground (Color.yellow);
       setPreferredSize (new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
@@ -55,5 +59,19 @@ public class TimePanel extends JPanel
            xSpot += interval;
        }
        
+       page.setColor(Color.blue);
+       for(Content current : contentList)
+       {
+    	   page.drawRect((int)(interval*(current._time/5)), 30, 1, PANEL_HEIGHT);
+    	   page.drawString(String.valueOf(contentList.indexOf(current)), (int)(interval*(current._time/5))-2, 25);
+       }
+       
    }
+   
+   public void updateList(ArrayList<Content> contentList)
+   {
+	   this.contentList = contentList;
+	   repaint();
+   }
+   
 }

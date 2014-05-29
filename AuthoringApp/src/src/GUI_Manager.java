@@ -44,7 +44,7 @@ public class GUI_Manager extends JApplet
       annoDisplay.setBackground(Color.white);
       annoDisplay.setOpaque(true);
       
-      contentList.add(new Content (Content.ContentType.Text, "Filler"));
+      contentList.add(new Content (Content.ContentType.Text, "Filler", 10));
       aPanel = new AnnoPanel(contentList);
       lPanel = new ListPanel(contentList);
       
@@ -61,6 +61,7 @@ public class GUI_Manager extends JApplet
 				int response = JOptionPane.showOptionDialog(null, "What type of annotation do you want?", "Tough Choice", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, "What?");
 				Content.ContentType fileType = Content.ContentType.Text;
 				String input = "";
+				int time;
 				switch(response)
 				{
 					case 0:
@@ -77,9 +78,9 @@ public class GUI_Manager extends JApplet
 						break;
 				}
 				
-				contentList.add(new Content(fileType, input));
-				aPanel.updateList(contentList);
-				lPanel.updateList(contentList);
+				time = Integer.parseInt(JOptionPane.showInputDialog("Enter desired time of annotation"));
+				contentList.add(new Content(fileType, input, time));
+				updateLists();
 			}
 		});
 		
@@ -90,8 +91,7 @@ public class GUI_Manager extends JApplet
 				int choice = Integer.parseInt(JOptionPane.showInputDialog("Enter # of annotation you want to delete"));
 				contentList.remove(choice);
 				
-				aPanel.updateList(contentList);
-				lPanel.updateList(contentList);
+				updateLists();
 			}
 		});
 		
@@ -114,9 +114,7 @@ public class GUI_Manager extends JApplet
 				
 				contentList.get(choice)._content = newContent;
 				
-				aPanel.updateList(contentList);
-				lPanel.updateList(contentList);
-				
+				updateLists();
 			}
 		});
 		
@@ -129,7 +127,7 @@ public class GUI_Manager extends JApplet
 		
       
       //Bottom Panel
-      tPanel = new TimePanel(600);
+      tPanel = new TimePanel(600, contentList);
       botPanel = new JPanel();
       botPanel.setLayout(new BorderLayout());
       botPanel.add(tPanel, BorderLayout.NORTH);
@@ -170,5 +168,12 @@ public class GUI_Manager extends JApplet
       
       setSize(APPLET_WIDTH, APPLET_HEIGHT);
       
+   }
+    
+   private void updateLists()
+   {
+	   tPanel.updateList(contentList);
+	   aPanel.updateList(contentList);
+	   lPanel.updateList(contentList);
    }
 }
