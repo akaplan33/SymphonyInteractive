@@ -1,3 +1,5 @@
+package src;
+
 //********************************************************************
 //  TimePanel.java       Author: Hunter Davis (based off KochPanel.java by Lewis/Loftus
 //
@@ -62,8 +64,8 @@ public class TimePanel extends JPanel
        page.setColor(Color.blue);
        for(Content current : contentList)
        {
-    	   page.drawRect((int)(interval*(current._time/5)), 30, 1, PANEL_HEIGHT);
-    	   page.drawString(String.valueOf(contentList.indexOf(current)), (int)(interval*(current._time/5))-2, 25);
+    	   page.drawRect((int)(interval*(current.getTime()/5)), 30, 1, PANEL_HEIGHT);
+    	   page.drawString(String.valueOf(contentList.indexOf(current)), (int)(interval*(current.getTime()/5))-2, 25);
        }
        
    }

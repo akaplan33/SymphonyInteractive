@@ -1,3 +1,5 @@
+package src;
+
 //********************************************************************
 //  TimePanel.java       Author: Hunter Davis (based off KochPanel.java by Lewis/Loftus
 //

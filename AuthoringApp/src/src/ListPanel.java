@@ -1,3 +1,5 @@
+package src;
+
 //********************************************************************
 //  ListPanel.java       Author: Hunter Davis (based off KochPanel.java by Lewis/Loftus
 //
@@ -22,8 +24,7 @@ public class ListPanel extends JPanel
       setBackground (Color.white);
       setPreferredSize (new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
    }
-
-
+   
    //-----------------------------------------------------------------
    //  Performs the initial calls to the drawTime method.
    //-----------------------------------------------------------------
@@ -48,9 +49,39 @@ public class ListPanel extends JPanel
        }
    }
    
+   public void sortTime()
+   {
+	   int min = 0;
+	   Content temp;
+	   Content[] holding = new Content[contentList.size()];
+	   
+	   for (int i=0;i<contentList.size();i++)
+		   holding[i] = contentList.get(i);
+	   
+	   for (int index=0;index<holding.length;index++)
+	   {
+		   min = index;
+		   for (int look = index+1; look < holding.length; look++)
+		   {
+			   if (holding[look] != null && ((holding[look].getTime())-(holding[min].getTime()) < 0))
+				   min = look;
+		   }
+		   temp = holding[min];
+		   holding[min] = holding[index];
+		   holding[index] = temp;
+	   }
+	   
+	   contentList.clear();
+	   
+	   for (int i=0;i<holding.length;i++)
+		   contentList.add(holding[i]);
+	   
+   }
+   
    public void updateList(ArrayList<Content> contentList)
    {
 	   this.contentList = contentList;
+	   this.sortTime();
 	   repaint();
    }
 }

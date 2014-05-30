@@ -1,10 +1,12 @@
+package src;
+
 
 public class Content {
 
 	public enum ContentType{ Text, Image, Animation }
 	public ContentType _type;
 	public String _content;
-	public int _time;
+	private int _time;
 	
 	public Content( ContentType type, String content, int time){
 		_type=type;
@@ -16,13 +18,16 @@ public class Content {
 	public String toString(){
 		return "[type: " + _type.toString() + "]  [content: " + _content + "]";
 	}
-	
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
+
+	public int getTime() 
+	{
+		return _time;
+	}
+	
+	public void setTime(int newTime)
+	{
+		_time = newTime;
 	}
 
 }
