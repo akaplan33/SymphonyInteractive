@@ -43,7 +43,8 @@ public class TimePanel extends JPanel
    private void drawTime(Graphics page)
    {
        double xSpot = -1;
-       double interval = 5*(((double)PANEL_WIDTH)/((double)SONG_TIME));
+       double singleInterval = (((double)PANEL_WIDTH)/((double)SONG_TIME));
+       double interval = singleInterval*5;
        for(int currentTime = 0; currentTime <= SONG_TIME; currentTime += 5)
        {
            page.setColor(Color.black);
@@ -62,8 +63,8 @@ public class TimePanel extends JPanel
        page.setColor(Color.blue);
        for(Content current : contentList)
        {
-    	   page.drawRect((int)(interval*(current._time/5)), 30, 1, PANEL_HEIGHT);
-    	   page.drawString(String.valueOf(contentList.indexOf(current)), (int)(interval*(current._time/5))-2, 25);
+    	   page.drawRect((int)(singleInterval*(current._time)), 30, 1, PANEL_HEIGHT);
+    	   page.drawString(String.valueOf(contentList.indexOf(current)), (int)(singleInterval*(current._time))-2, 25);
        }
        
    }
