@@ -7,20 +7,24 @@ import javax.swing.Timer;
 
 
 import java.awt.event.*;
+import java.io.EOFException;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 //need to change all content of name of Alex's class Notes?
 public class TimeSend {
-	private ArrayList<Note> lists;
+	private ArrayList<Content> lists;
 	private Timer time;
 	private int index, second;
 	private String fileName;
-	private DefaultListModel<Note> listOfNotes;
+	private DefaultListModel<Content> listOfNotes;
+	private boolean flag=false;
+	
 	//constructor
-	public TimeSend(ArrayList<Note> listOfann)
+	public TimeSend(ArrayList<Content> listOfann)
 	{
 		lists = listOfann;
 		time = new Timer(1000, new CountListener());
@@ -28,30 +32,40 @@ public class TimeSend {
 		second=0;
 		time.start();
 	}
-	public TimeSend(String nameOfFile)
+	@SuppressWarnings("unchecked")
+	public TimeSend()
 	{
-		fileName=nameOfFile;
 		try{
-        FileInputStream fileIn = new FileInputStream("fileName");
+        FileInputStream fileIn = new FileInputStream("notesList.ser");
         ObjectInputStream in = new ObjectInputStream(fileIn);
-        listOfNotes = (DefaultListModel) in.readObject();
+        listOfNotes = (DefaultListModel<Content>) in.readObject();
         in.close();
         fileIn.close();
-		Note[] list;
-		list = (Note[]) listOfNotes.toArray();
+		Object[] list;
+		list =  listOfNotes.toArray();
+		lists=new ArrayList<Content>();
 		for (int i = 0; i < list.length; i++) {
 
-				lists.add(list[i]);
+				lists.add((Content) list[i]);
 			
 		}
 		sort(lists);
-		time = new Timer(1000, new CountListener());
-		index=0;
-		second=0;
-		time.start();
 		 }catch(IOException i)
 	      {
 	         i.printStackTrace();
+	         try{
+	        	 DefaultListModel<Content> listOfNote = new DefaultListModel<Content>();
+	        	 Content co = new Content(Content.ContentType.Text,"filler", 10);
+	        	 listOfNote.addElement(co);
+	        	 FileOutputStream fileOut = new FileOutputStream("notesList.ser");
+	        	 ObjectOutputStream out = new ObjectOutputStream(fileOut);
+	        	 out.writeObject(listOfNote);
+	        	 out.close();
+	        	 fileOut.close();
+	        	 }catch(IOException j)
+	             {
+	                 j.printStackTrace();
+	             }
 	         return;
 	      }catch(ClassNotFoundException c)
 	      {
@@ -59,12 +73,62 @@ public class TimeSend {
 	         c.printStackTrace();
 	         return;
 	      }
+		time = new Timer(1000, new CountListener());
+		index=0;
+		second=0;
+		time.start();
+	}
+	public TimeSend(String nameOfFile)
+	{
+		flag=true;
+		fileName=nameOfFile;
+		try{
+        FileInputStream fileIn = new FileInputStream(fileName);
+        ObjectInputStream in = new ObjectInputStream(fileIn);
+        listOfNotes = (DefaultListModel<Content>) in.readObject();
+        in.close();
+        fileIn.close();
+		Content[] list;
+		list = (Content[]) listOfNotes.toArray();
+		for (int i = 0; i < list.length; i++) {
+
+				lists.add(list[i]);
+			
+		}
+		sort(lists);
+		 }catch(IOException i)
+	      {
+	         i.printStackTrace();
+	         try{
+	        	 DefaultListModel<Content> listOfNote = new DefaultListModel<Content>();
+	        	 Content co = new Content(Content.ContentType.Text,"filler", 10);
+	        	 listOfNote.addElement(co);
+	        	 FileOutputStream fileOut = new FileOutputStream(fileName);
+	        	 ObjectOutputStream out = new ObjectOutputStream(fileOut);
+	        	 out.writeObject(listOfNote);
+	        	 out.close();
+	        	 fileOut.close();
+	        	 }catch(IOException j)
+	             {
+	                 j.printStackTrace();
+	             }
+	         return;
+	      }catch(ClassNotFoundException c)
+	      {
+	         System.out.println("Default List Model class could not be found");
+	         c.printStackTrace();
+	         return;
+	      }
+		time = new Timer(1000, new CountListener());
+		index=0;
+		second=0;
+		time.start();
 	}
 	//constructor if a defalut list model is used instead of an already exsisting array list
-	public TimeSend(DefaultListModel<Note> e)
+	public TimeSend(DefaultListModel<Content> e)
 	{
-		Note[] list;
-		list = (Note[]) e.toArray();
+		Content[] list;
+		list = (Content[]) e.toArray();
 		for(int i=0; i<list.length; i++)
 		{
 
@@ -84,10 +148,11 @@ public class TimeSend {
 		return second;
 	}
 	//adds an annotation to the list then calls sort
-	public void addAnn(Note ann) {
+	public void addAnn(Content ann) {
 		lists.add(ann);
 		sort(lists);
 	}
+	
 	//saves the array list by setting a static default list model to it.
 	public void save()
 	{
@@ -96,8 +161,22 @@ public class TimeSend {
 	{
 	listOfNotes.addElement(lists.get(i));
 	}
+	if(flag)
+	{
+		try{
+			 FileOutputStream fileOut = new FileOutputStream(fileName);
+			 ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			 out.writeObject(listOfNotes);
+			 out.close();
+			 fileOut.close();
+			 }catch(IOException i)
+		     {
+		         i.printStackTrace();
+		     }
+	}
+	else{
 	try{
-	 FileOutputStream fileOut = new FileOutputStream(fileName);
+	 FileOutputStream fileOut = new FileOutputStream("notesList.ser");
 	 ObjectOutputStream out = new ObjectOutputStream(fileOut);
 	 out.writeObject(listOfNotes);
 	 out.close();
@@ -107,19 +186,28 @@ public class TimeSend {
          i.printStackTrace();
      }
 	}
+	}
+	public Content getNextNote()
+	{
+		return lists.get(index+1);
+	}
 	//sorts array list by time
-	private void sort(ArrayList<Note> listOfann) {
+	private void sort(ArrayList<Content> listOfann) {
 		int min;
-		Note temp;
+		Content temp;
 		for (int i = 0; i < listOfann.size(); i++) {
 			min = i;
 			for (int scan = i + 1; scan < listOfann.size(); scan++)
-				if (listOfann.get(scan).getTime() < listOfann.get(min).getTime())
+				if (listOfann.get(scan)._time < listOfann.get(min)._time)
 					min = scan;
 			temp = listOfann.get(min);
 			listOfann.set(min, listOfann.get(i));
 			listOfann.set(i, temp);
 		}
+	}
+	public Content getNote()
+	{
+		return lists.get(index);
 	}
 	//listener. makes time go up and sends annotation
 	private class CountListener implements ActionListener {
@@ -127,8 +215,7 @@ public class TimeSend {
 			second++;
 			if(index>=lists.size())
 				time.stop();
-			if (lists.get(index).getTime() == second) {
-				// send lists.get(index)
+			if (lists.get(index+1)._time == second) {
 				index++;
 			}
 		}

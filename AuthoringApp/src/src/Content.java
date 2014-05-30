@@ -1,5 +1,7 @@
+import java.io.Serializable;
 
-public class Content {
+//edited by Eric Rothman
+public class Content implements Serializable{
 
 	public enum ContentType{ Text, Image, Animation }
 	public ContentType _type;
@@ -7,9 +9,9 @@ public class Content {
 	public int _time;
 	
 	public Content( ContentType type, String content, int time){
+		_time = time;
 		_type=type;
 		_content=new String(content);
-		_time = time;
 	}
 	
 	@Override
@@ -19,7 +21,7 @@ public class Content {
 	
 	/**
 	 * @param args
-	 */
+	 */ 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
