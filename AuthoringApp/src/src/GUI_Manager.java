@@ -1,9 +1,8 @@
-package src;
+
 
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-
 import javax.swing.*;
 
 //Page 198
@@ -120,12 +119,33 @@ public class GUI_Manager extends JApplet
 			}
 		});
 		
+		JButton btnChangeSongLength = new JButton("Edit Song Length");
+		btnChangeSongLength.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+		
+				int choice = Integer.parseInt(JOptionPane.showInputDialog("Enter length of song (in seconds)"));
+				
+				tPanel.setSongTime(choice);
+			}
+		});
+		
+		JButton btnPlay = new JButton("Play");
+		btnPlay.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				playAnnotations(0);
+			}
+		});
+		
 		buttonPanel = new JPanel();
-		buttonPanel.setLayout(new GridLayout(2,2));
+		buttonPanel.setLayout(new GridLayout(3,3));
 		buttonPanel.add(btnAddEvent);
 		buttonPanel.add(btnDelEvent);
 		buttonPanel.add(btnChangeEvent);
 		buttonPanel.add(btnEditEvent);
+		buttonPanel.add(btnChangeSongLength);
+		buttonPanel.add(btnPlay);
 		
       
       //Bottom Panel
@@ -177,5 +197,26 @@ public class GUI_Manager extends JApplet
 	   tPanel.updateList(contentList);
 	   aPanel.updateList(contentList);
 	   lPanel.updateList(contentList);
+   }
+   
+   private void playAnnotations(int currentAnnotation)
+   {
+	   if(currentAnnotation == contentList.size())
+		   return;
+	   else{
+		   final int usableAnno = currentAnnotation;
+		   ActionListener playNext = new ActionListener()
+		   {
+			   public void actionPerformed (ActionEvent e)
+			   {
+				   aPanel.updateSpot(usableAnno);
+			   }
+		   };
+
+		   Timer time = new Timer(contentList.get(currentAnnotation).getTime()*1000, playNext);
+		   time.setRepeats(false);
+		   time.start();
+		   playAnnotations(currentAnnotation+1);
+	   }
    }
 }

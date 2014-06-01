@@ -1,9 +1,7 @@
-<<<<<<< HEAD
-package src;
 
-=======
+
 import java.io.Serializable;
->>>>>>> 5e721f7568a37cb5e194a296f5e17b14ddb19cf3
+
 
 //edited by Eric Rothman
 public class Content implements Serializable{
@@ -23,16 +21,6 @@ public class Content implements Serializable{
 	public String toString(){
 		return "[type: " + _type.toString() + "]  [content: " + _content + "]";
 	}
-<<<<<<< HEAD
-=======
-	
-	/**
-	 * @param args
-	 */ 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
->>>>>>> 5e721f7568a37cb5e194a296f5e17b14ddb19cf3
-
 
 	public int getTime() 
 	{
