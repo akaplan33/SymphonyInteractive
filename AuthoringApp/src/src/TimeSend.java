@@ -199,7 +199,7 @@ public class TimeSend {
 		for (int i = 0; i < listOfann.size(); i++) {
 			min = i;
 			for (int scan = i + 1; scan < listOfann.size(); scan++)
-				if (listOfann.get(scan)._time < listOfann.get(min)._time)
+				if (listOfann.get(scan).getTime() < listOfann.get(min).getTime())
 					min = scan;
 			temp = listOfann.get(min);
 			listOfann.set(min, listOfann.get(i));
@@ -216,7 +216,7 @@ public class TimeSend {
 			second++;
 			if(index>=lists.size())
 				time.stop();
-			if (lists.get(index+1)._time == second) {
+			if (lists.get(index+1).getTime() == second) {
 				index++;
 			}
 		}
