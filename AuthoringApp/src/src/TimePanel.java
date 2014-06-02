@@ -22,17 +22,20 @@ public class TimePanel extends JPanel
    private boolean isPlaying;
    private int currentTime;
    private Timer timeCount;
+   private int annoNum;
+   private final AnnoPanel aPanel;
    
    //-----------------------------------------------------------------
    //  Sets the initial fractal order to the value specified.
    //-----------------------------------------------------------------
-   public TimePanel (int time, ArrayList<Content> contentList)
+   public TimePanel (int time, ArrayList<Content> contentList, AnnoPanel aPanel)
    {
 	  this.contentList = contentList;
       SONG_TIME = time;
       setBackground (Color.yellow);
       setPreferredSize (new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
       isPlaying = false;
+      this.aPanel = aPanel;
    }
 
 
@@ -78,8 +81,8 @@ public class TimePanel extends JPanel
        page.setColor(Color.green);
        if(isPlaying)
        { 
-    	   page.drawString(String.valueOf(((double)currentTime)/100), 10, 10);
-    	   page.drawRect((int)((singleInterval/100)*currentTime), 0, 1, PANEL_HEIGHT);
+    	   page.drawString(String.valueOf(((double)currentTime)/20), 10, 10);
+    	   page.drawRect((int)((singleInterval/20)*currentTime), 0, 1, PANEL_HEIGHT);
        }
    }
    
@@ -93,6 +96,7 @@ public class TimePanel extends JPanel
    {
 	   isPlaying = true;
 	   currentTime = 0;
+	   annoNum = 0;
 	   
 	   ActionListener advanceSong = new ActionListener()
 	   {
@@ -100,8 +104,15 @@ public class TimePanel extends JPanel
 		   {
 			   currentTime++;
 			   repaint();
-			  
-			   if(currentTime >= SONG_TIME*100)
+			   
+			   if(currentTime/20 == contentList.get(annoNum).getTime())
+			   {
+				   aPanel.updateSpot(annoNum);
+				   if(annoNum != contentList.size()-1)
+					   annoNum++;
+			   }
+			   
+			   if(currentTime >= SONG_TIME*20)
 			   {
 				   timeCount.stop();
 				   isPlaying = false;
@@ -110,7 +121,7 @@ public class TimePanel extends JPanel
 		   }
 	   };
 	   
-	   timeCount = new Timer(10, advanceSong);
+	   timeCount = new Timer(50, advanceSong);
 	   timeCount.start();
    }
    

@@ -24,6 +24,7 @@ public class GUI_Manager extends JApplet
    private ListPanel lPanel;
    private ArrayList<Content> contentList = new ArrayList<Content>();;
    private JList list_events;
+   private Timer[] annotationTimers;
    
     public void init()
    {
@@ -134,7 +135,6 @@ public class GUI_Manager extends JApplet
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				playAnnotations(0);
 				tPanel.playSong();
 			}
 		});
@@ -150,7 +150,7 @@ public class GUI_Manager extends JApplet
 		
       
       //Bottom Panel
-      tPanel = new TimePanel(600, contentList);
+      tPanel = new TimePanel(600, contentList, aPanel);
       botPanel = new JPanel();
       botPanel.setLayout(new BorderLayout());
       botPanel.add(tPanel, BorderLayout.NORTH);
@@ -200,8 +200,9 @@ public class GUI_Manager extends JApplet
 	   lPanel.updateList(contentList);
    }
    
-   private void playAnnotations(int currentAnnotation)
-   {
+   //private void playAnnotations(int currentAnnotation)
+   /*{
+	   annotationTimers = new Timer[contentList.size()];
 	   if(currentAnnotation == contentList.size())
 		   return;
 	   else{
@@ -214,10 +215,10 @@ public class GUI_Manager extends JApplet
 			   }
 		   };
 
-		   Timer time = new Timer(contentList.get(currentAnnotation).getTime()*1000, playNext);
-		   time.setRepeats(false);
-		   time.start();
+		   annotationTimers[currentAnnotation] = new Timer(contentList.get(currentAnnotation).getTime()*1000, playNext);
+		   annotationTimers[currentAnnotation].setRepeats(false);
+		   annotationTimers[currentAnnotation].start();
 		   playAnnotations(currentAnnotation+1);
 	   }
-   }
+   }*/
 }
