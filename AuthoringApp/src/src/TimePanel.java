@@ -6,7 +6,10 @@
 //********************************************************************
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import javax.swing.Timer;
 
 import javax.swing.JPanel;
 
@@ -16,6 +19,9 @@ public class TimePanel extends JPanel
    private final int PANEL_HEIGHT = 100;
    private int SONG_TIME;
    private ArrayList<Content> contentList;
+   private boolean isPlaying;
+   private int currentTime;
+   private Timer timeCount;
    
    //-----------------------------------------------------------------
    //  Sets the initial fractal order to the value specified.
@@ -26,6 +32,7 @@ public class TimePanel extends JPanel
       SONG_TIME = time;
       setBackground (Color.yellow);
       setPreferredSize (new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
+      isPlaying = false;
    }
 
 
@@ -64,18 +71,47 @@ public class TimePanel extends JPanel
        page.setColor(Color.blue);
        for(Content current : contentList)
        {
-    	   page.drawRect((int)(interval*(current.getTime()/5)), 30, 1, PANEL_HEIGHT);
-    	   page.drawString(String.valueOf(contentList.indexOf(current)), (int)(interval*(current.getTime()/5))-2, 25);
     	   page.drawRect((int)(singleInterval*(current.getTime())), 30, 1, PANEL_HEIGHT);
     	   page.drawString(String.valueOf(contentList.indexOf(current)), (int)(singleInterval*(current.getTime()))-2, 25);
        }
        
+       page.setColor(Color.green);
+       if(isPlaying)
+       { 
+    	   page.drawString(String.valueOf(((double)currentTime)/100), 10, 10);
+    	   page.drawRect((int)((singleInterval/100)*currentTime), 0, 1, PANEL_HEIGHT);
+       }
    }
    
    public void updateList(ArrayList<Content> contentList)
    {
 	   this.contentList = contentList;
 	   repaint();
+   }
+   
+   public void playSong()
+   {
+	   isPlaying = true;
+	   currentTime = 0;
+	   
+	   ActionListener advanceSong = new ActionListener()
+	   {
+		   public void actionPerformed(ActionEvent e)
+		   {
+			   currentTime++;
+			   repaint();
+			  
+			   if(currentTime >= SONG_TIME*100)
+			   {
+				   timeCount.stop();
+				   isPlaying = false;
+				   repaint();
+			   }
+		   }
+	   };
+	   
+	   timeCount = new Timer(10, advanceSong);
+	   timeCount.start();
    }
    
    public void setSongTime(int secs)

@@ -135,6 +135,7 @@ public class GUI_Manager extends JApplet
 			public void actionPerformed(ActionEvent e)
 			{
 				playAnnotations(0);
+				tPanel.playSong();
 			}
 		});
 		
