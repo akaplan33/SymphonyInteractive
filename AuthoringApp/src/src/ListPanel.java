@@ -1,3 +1,4 @@
+package src;
 
 //********************************************************************
 //  ListPanel.java       Author: Hunter Davis (based off KochPanel.java by Lewis/Loftus
@@ -14,9 +15,11 @@ import javax.swing.*;
 
 public class ListPanel extends JPanel
 {
-   private final int PANEL_WIDTH = 100;
-   private final int PANEL_HEIGHT = 500;
+   private final int PANEL_WIDTH = 500;
+   private final int PANEL_HEIGHT = 100;
+   private final int MAX = 6;
    private ArrayList<Content> contentList;
+   private JPanel[] panelList;
    
    //-----------------------------------------------------------------
    //  Sets the initial fractal order to the value specified.
@@ -26,6 +29,13 @@ public class ListPanel extends JPanel
 	  this.contentList = contentList;
       setBackground (Color.white);
       setPreferredSize (new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
+      panelList = new JPanel[MAX];
+      for(int i = 0; i<MAX; i++)
+      {
+    	  panelList[i] = new JPanel();//update thise and replace them with new ones.
+    	  this.add(panelList[i]);
+      }
+    		  
    }
    
    //-----------------------------------------------------------------
@@ -47,7 +57,7 @@ public class ListPanel extends JPanel
     	   JPanel next = new JPanel();
     	   next.setBorder(BorderFactory.createTitledBorder((""+ c)));
     	   if (contentList.get(c)._type == Content.ContentType.Text)
-    		   next.add (new JLabel ("" + contentList.get(c)));
+    		   next.add (new JLabel (".." + contentList.get(c)._content));
     	   else if(contentList.get(c)._type == Content.ContentType.Image)
     	   {
     		   Image image, thumbnail;
@@ -61,8 +71,12 @@ public class ListPanel extends JPanel
     	       }
     	       
     	   }
-    	   this.add(next);//keeps on adding same ones...
+    	   panelList[c].replace(next);
+    	   
        }
+       
+       for(int c = 0; c<MAX; c++);
+    	   //.update(page);
    }
    
    public void sortTime()
