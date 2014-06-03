@@ -42,8 +42,7 @@ public class ListPanel extends JPanel
    
    private void drawAnno(Graphics page)
    {
-	   JPanel[] annoList = new JPanel[contentList.size()];
-       for(int c = 0; c == contentList.size(); c++)
+       for(int c = 0; c < contentList.size(); c++)
        {
     	   JPanel next = new JPanel();
     	   next.setBorder(BorderFactory.createTitledBorder((""+ c)));
@@ -60,14 +59,10 @@ public class ListPanel extends JPanel
     	       } catch (IOException e) {
     	           e.printStackTrace();
     	       }
+    	       
     	   }
-    	   
-    	   annoList[c] = next;
+    	   this.add(next);//keeps on adding same ones...
        }
-       
-       for(JPanel display : annoList)
-    	   if(display != null)
-    		   this.add(display);
    }
    
    public void sortTime()
