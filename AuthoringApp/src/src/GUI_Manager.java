@@ -3,6 +3,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+
 import javax.swing.*;
 
 //Page 198
@@ -17,11 +18,11 @@ public class GUI_Manager extends JApplet
     // instance variables - replace the example below with your own
    private final int APPLET_WIDTH = 1000;
    private final int APPLET_HEIGHT = 500;
-   private JPanel topDisplay, appPanel, buttonPanel, botPanel, queue, annoDisplay;
+   private JPanel topDisplay, appPanel, buttonPanel, botPanel, annoDisplay;
    private JLabel titleLabel; 
    private TimePanel tPanel; 
    private AnnoPanel aPanel;
-   private ListPanel lPanel;
+   private ListPanel listPanel;
    private ArrayList<Content> contentList = new ArrayList<Content>();;
    private JList list_events;
    private Timer[] annotationTimers;
@@ -48,10 +49,8 @@ public class GUI_Manager extends JApplet
       
       contentList.add(new Content (Content.ContentType.Text, "Filler", 10));
       aPanel = new AnnoPanel(contentList);
-      lPanel = new ListPanel(contentList);
       
-      annoDisplay.add(aPanel, BorderLayout.WEST);
-      annoDisplay.add(lPanel, BorderLayout.EAST);
+      annoDisplay.add(aPanel);
       
       
       //Buttons!
@@ -157,25 +156,8 @@ public class GUI_Manager extends JApplet
       
       // Alex's Domain...
       //--------------------------------------
-      queue = new JPanel();
-      queue.setPreferredSize(new Dimension(APPLET_WIDTH, 60));
-      queue.setBackground(Color.black);
-      queue.setOpaque(true);
-      botPanel.add(queue, BorderLayout.SOUTH);
-      
-      //placeHolder.setLayout(new CardLayout());
-      
-      //JPanel noteSet1 = new JPanel();
-      //JPanel noteSet2 = new JPanel();
-      //noteSet1.setBackground(Color.cyan);
-      //noteSet2.setBackground(Color.green);
-      
-      //need to make whole new JPanel, or not, will ask in class.
-      
-      //placeHolder.add(noteSet1);
-      //placeHolder.add(Box.createRigidArea (new Dimension (0, 60)));
-      //placeHolder.add(Box.createHorizontalGlue());
-      //placeHolder.add(noteSet2);
+      listPanel = new ListPanel(contentList);
+      botPanel.add(listPanel, BorderLayout.SOUTH);
       //-------------------------------------------
 
       //Puts it all together
@@ -197,7 +179,7 @@ public class GUI_Manager extends JApplet
    {
 	   tPanel.updateList(contentList);
 	   aPanel.updateList(contentList);
-	   lPanel.updateList(contentList);
+	   listPanel.updateList(contentList);
    }
    
    //private void playAnnotations(int currentAnnotation)

@@ -4,9 +4,13 @@
 //
 //  Draws a list of all the current annotations
 //**********
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.awt.*;
-import javax.swing.JPanel;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
 
 public class ListPanel extends JPanel
 {
@@ -40,11 +44,24 @@ public class ListPanel extends JPanel
    {
        for(int c = 0; c < contentList.size(); c++)
        {
-    	   page.setColor(Color.BLUE);
-    	   page.drawRect(5, c*55, 100, 50);
-    	   page.setColor(Color.BLACK);
-    	   page.drawString(String.valueOf(c), 10, (c*55)+20);
-    	   page.drawString(contentList.get(c)._content, 25, (c*55)+20);
+    	   JPanel next = new JPanel();
+    	   next.setBorder(BorderFactory.createTitledBorder((""+ c)));
+    	   if (contentList.get(c)._type == Content.ContentType.Text)
+    		   next.add (new JLabel ("" + contentList.get(c)));
+    	   else if(contentList.get(c)._type == Content.ContentType.Image)
+    	   {
+    		   Image image, thumbnail;
+    		   URL resource = getClass().getResource(contentList.get(c)._content);
+    	       try {
+    	           image = ImageIO.read(resource);
+    	           thumbnail = image.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+    	           next.add (new JLabel(new ImageIcon(thumbnail)));
+    	       } catch (IOException e) {
+    	           e.printStackTrace();
+    	       }
+    	       
+    	   }
+    	   this.add(next);//keeps on adding same ones...
        }
    }
    
