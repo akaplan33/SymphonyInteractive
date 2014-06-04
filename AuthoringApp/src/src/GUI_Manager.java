@@ -2,6 +2,7 @@
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.*;
