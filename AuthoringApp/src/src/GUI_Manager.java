@@ -2,6 +2,7 @@
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.util.ArrayList;
 import javax.swing.*;
 
@@ -25,6 +26,7 @@ public class GUI_Manager extends JApplet
    private ArrayList<Content> contentList = new ArrayList<Content>();;
    private JList list_events;
    private Timer[] annotationTimers;
+   private JFileChooser fc = new JFileChooser();
    
     public void init()
    {
@@ -139,14 +141,41 @@ public class GUI_Manager extends JApplet
 			}
 		});
 		
+		JButton btnLoad = new JButton("Load Annotation");
+		btnLoad.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				int returnVal = fc.showOpenDialog(aPanel);
+				
+				if(returnVal == JFileChooser.APPROVE_OPTION)
+				{
+					File file = fc.getSelectedFile();
+					contentList.add(FileManager.extractAnno(file));
+					updateLists();
+				}
+			}
+		});
+		
+		JButton btnSave = new JButton("Save Annotation");
+		btnSave.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				//No save feature yet
+			}
+		});
+		
 		buttonPanel = new JPanel();
-		buttonPanel.setLayout(new GridLayout(3,3));
+		buttonPanel.setLayout(new GridLayout(4,4));
 		buttonPanel.add(btnAddEvent);
 		buttonPanel.add(btnDelEvent);
 		buttonPanel.add(btnChangeEvent);
 		buttonPanel.add(btnEditEvent);
 		buttonPanel.add(btnChangeSongLength);
 		buttonPanel.add(btnPlay);
+		buttonPanel.add(btnLoad);
+		buttonPanel.add(btnSave);
 		
       
       //Bottom Panel
