@@ -1,4 +1,3 @@
-package src;
 
 //********************************************************************
 //  ListPanel.java       Author: Hunter Davis (based off KochPanel.java by Lewis/Loftus
