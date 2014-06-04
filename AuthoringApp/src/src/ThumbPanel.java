@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 
-=======
->>>>>>> 4eb6fc6475768680b74f1bdb5354ad0a5ef02f75
 
 //********************************************************************
 //  TimePanel.java       Author: Hunter Davis (based off KochPanel.java by Lewis/Loftus
