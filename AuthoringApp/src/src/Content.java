@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-
-=======
->>>>>>> 74321cc7612d5c9e09965ce4bae019a2a4aae1d1
 
 import java.io.Serializable;
 
