@@ -1,4 +1,4 @@
-package src;
+
 
 //********************************************************************
 //  ListPanel.java       Author: Hunter Davis (based off KochPanel.java by Lewis/Loftus
@@ -17,25 +17,19 @@ public class ListPanel extends JPanel
 {
    private final int PANEL_WIDTH = 500;
    private final int PANEL_HEIGHT = 100;
-   private final int MAX = 6;
+   private final int NOTE_WIDTH = 90;
+   private final int NOTE_HEIGHT = 90;
    private ArrayList<Content> contentList;
-   private JPanel[] panelList;
    
    //-----------------------------------------------------------------
    //  Sets the initial fractal order to the value specified.
    //-----------------------------------------------------------------
-   public ListPanel (ArrayList<Content> contentList)
+public ListPanel (ArrayList<Content> contentList)
    {
 	  this.contentList = contentList;
       setBackground (Color.white);
       setPreferredSize (new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
-      panelList = new JPanel[MAX];
-      for(int i = 0; i<MAX; i++)
-      {
-    	  panelList[i] = new JPanel();//update thise and replace them with new ones.
-    	  this.add(panelList[i]);
-      }
-    		  
+      this.setLayout(new FlowLayout(FlowLayout.LEFT));    		  
    }
    
    //-----------------------------------------------------------------
@@ -52,12 +46,16 @@ public class ListPanel extends JPanel
    
    private void drawAnno(Graphics page)
    {
+	   this.removeAll();
+	   
        for(int c = 0; c < contentList.size(); c++)
        {
     	   JPanel next = new JPanel();
+    	   //next.removeAll();
+    	   next.setPreferredSize(new Dimension (NOTE_WIDTH, NOTE_HEIGHT));
     	   next.setBorder(BorderFactory.createTitledBorder((""+ c)));
     	   if (contentList.get(c)._type == Content.ContentType.Text)
-    		   next.add (new JLabel (".." + contentList.get(c)._content));
+    		   next.add (new JLabel ("" + contentList.get(c)._content));
     	   else if(contentList.get(c)._type == Content.ContentType.Image)
     	   {
     		   Image image, thumbnail;
@@ -71,12 +69,9 @@ public class ListPanel extends JPanel
     	       }
     	       
     	   }
-    	   panelList[c].replace(next);
-    	   
+    	   this.add(next);
        }
-       
-       for(int c = 0; c<MAX; c++);
-    	   //.update(page);
+       this.validate();
    }
    
    public void sortTime()
