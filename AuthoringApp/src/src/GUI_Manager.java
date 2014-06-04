@@ -26,6 +26,7 @@ public class GUI_Manager extends JApplet
    private ArrayList<Content> contentList = new ArrayList<Content>();;
    private JList list_events;
    private Timer[] annotationTimers;
+   private JFileChooser fc = new JFileChooser();
    
     public void init()
    {
