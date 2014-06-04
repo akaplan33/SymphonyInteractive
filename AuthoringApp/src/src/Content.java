@@ -3,7 +3,7 @@ import java.io.Serializable;
 
 
 //edited by Eric Rothman
-public class Content implements Serializable{
+public class Content {// implements Serializable
 
 	public enum ContentType{ Text, Image, Animation }
 	public ContentType _type;
