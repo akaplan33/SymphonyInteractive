@@ -162,7 +162,10 @@ public class GUI_Manager extends JApplet
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				//No save feature yet
+				int choice = Integer.parseInt(JOptionPane.showInputDialog("Which annotation would you like to save?"));
+				String fileName = JOptionPane.showInputDialog("What should the save file be named?");
+				
+				FileManager.saveAnno(contentList.get(choice), fileName);
 			}
 		});
 		
